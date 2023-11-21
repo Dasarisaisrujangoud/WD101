@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     function validateDob() {
-        var dob = new Date(document.getElementById("dob1").value);
+        var dob = new Date(document.getElementById("dob").value);
         var today = new Date();
         var age = today.getFullYear() - dob.getFullYear();
 
@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     function addToTable() {
-        var table = document.getElementById("registrationTable1").getElementsByTagName('tbody')[0];
+        var table = document.getElementById("registrationTable").getElementsByTagName('tbody')[0];
         var newRow = table.insertRow(table.rows.length);
 
         var nameCell = newRow.insertCell(0);
@@ -29,11 +29,11 @@ document.addEventListener("DOMContentLoaded", function() {
         var dobCell = newRow.insertCell(3);
         var termsCell = newRow.insertCell(4);
 
-        nameCell.innerHTML = document.getElementById("name1").value;
-        emailCell.innerHTML = document.getElementById("email1").value;
-        passwordCell.innerHTML = document.getElementById("password1").value;
-        dobCell.innerHTML = document.getElementById("dob1").value;
-        termsCell.innerHTML = document.getElementById("terms1").checked ? "Yes" : "No";
+        nameCell.innerHTML = document.getElementById("name").value;
+        emailCell.innerHTML = document.getElementById("email").value;
+        passwordCell.innerHTML = document.getElementById("password").value;
+        dobCell.innerHTML = document.getElementById("dob").value;
+        termsCell.innerHTML = document.getElementById("terms").checked ? "Yes" : "No";
     }
 
     function clearForm() {
