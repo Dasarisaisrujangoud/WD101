@@ -3,7 +3,66 @@
   <head>
     <meta charset="UTF-8" />
     <title>REGISTRATION FORM</title>
-    <link rel="stylesheet" href="index.css" />
+  <style>form {
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+label {
+    margin-top: 12px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="checkbox"]{
+    margin-bottom: 20px;
+    padding: 8px;
+    border: 1px solid rgb(10, 0, 0);
+    border-radius: 5px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    max-width: 400px;
+}
+
+button[type="submit"] {
+    background-color: #78bd7a;
+    color: rgb(155, 34, 34);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button[type="submit"]:hover {
+    background-color: #4b8b4f;
+}
+
+table {
+    border-collapse: collapse;
+    margin-top: 30px;
+    width: 100%;
+}
+
+table th,
+table td {
+    border: 2px solid rgb(233, 162, 162);
+    padding: 7px;
+}
+
+table th {
+    background-color: #e4a7a7;
+    text-align:center;
+}
+
+
+</style>
   </head>
   <body>
     <h1 align="center">Registration Form </h1>
