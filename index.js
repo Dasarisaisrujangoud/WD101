@@ -1,73 +1,54 @@
-document.addEventListener("DOMContentLoaded", function() {
-    loadTableFromSessionStorage();
+const tls = document.getElementById('user-table');
 
-    document.getElementById("registrationForm").addEventListener("submit", function(event) {
-        event.preventDefault();
+// Retrieving existing user data from local storage
 
-        if (!validateForm()) {
-            return;
-        }
+let entry = JSON.parse(localStorage.getItem('users')) || [];
 
-        addToTable();
-        saveTableToSessionStorage();
-        clearForm();
-    });
+// Displaying existing user data in table
+for (const user of entry) {
+    const {name, email, password, dob, terms} = user;
+    const row = tls.insertRow();
+    row.insertCell().textContent = name;
+    row.insertCell().textContent = email;
+    row.insertCell().textContent = password;
+    row.insertCell().textContent = dob;
+    row.insertCell().textContent = terms ? 'true' : 'false';
+}
 
-    function validateForm() {
-        var dob = new Date(document.getElementById("dob").value);
-        var today = new Date();
-        var age = today.getFullYear() - dob.getFullYear();
+// Handle form submit event
+const frs = document.getElementById('registration_form');
+frs.addEventListener('submit', (event) => {
+    event.preventDefault();
 
-        if (age < 18 || age > 55) {
-            alert("Age must be between 18 and 55 years.");
-            return false;
-        }
+    // Getting the form data
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const dob = document.getElementById('dob').value;
+    const terms = document.getElementById('terms').checked;
 
-        var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        var email = document.getElementById("email").value;
+    // Validating date of birth
+    const d = new Date(dob);
+    const n = new Date();
+    const bfd = (new Date(n.getFullYear() - 55, n.getMonth(), n.getDate()))
 
-        if (!emailRegex.test(email)) {
-            alert("Invalid email address.");
-            return false;
-        }
 
-        return true;
+    const rfd = (new Date(n.getFullYear() - 18, n.getMonth(), n.getDate()));
+    if (d < bfd || d > rfd) {
+        alert('You must be 18 years old to register');
+        return;
     }
 
-    function addToTable() {
-        var table = document.getElementById("registrationTable").getElementsByTagName('tbody')[0];
-        var newRow = table.insertRow(table.rows.length);
-
-        var nameCell = newRow.insertCell(0);
-        var emailCell = newRow.insertCell(1);
-        var passwordCell = newRow.insertCell(2);
-        var dobCell = newRow.insertCell(3);
-        var termsCell = newRow.insertCell(4);
-
-        nameCell.innerHTML = document.getElementById("name").value;
-        emailCell.innerHTML = document.getElementById("email").value;
-        passwordCell.innerHTML = document.getElementById("password").value;
-        dobCell.innerHTML = document.getElementById("dob").value;
-        termsCell.innerHTML = document.getElementById("terms").checked ? "Yes" : "No";
-    }
-
-    function clearForm() {
-        document.getElementById("name").value = "";
-        document.getElementById("email").value = "";
-        document.getElementById("password").value = "";
-        document.getElementById("dob").value = "";
-        document.getElementById("terms").checked = false;
-    }
-
-    function saveTableToSessionStorage() {
-        sessionStorage.setItem("registrationTable", document.getElementById("registrationTable").innerHTML);
-    }
-
-    function loadTableFromSessionStorage() {
-        var tableHtml = sessionStorage.getItem("registrationTable");
-
-        if (tableHtml) {
-            document.getElementById("registrationTable").innerHTML = tableHtml;
-        }
-    }
+    // Adding user to table and saving the data to local storage
+    const user = {name, email, password, dob, terms};
+    entry.push(user);
+    localStorage.setItem('users', JSON.stringify(entry));
+    const row = tls.insertRow();
+    const mak = [name, email, password, dob, terms]
+    const rows = mak.map((item) => {
+        const cell = row.insertCell();
+        cell.textContent = item;
+    })
+    // Reset form
+    frs.reset();
 });
