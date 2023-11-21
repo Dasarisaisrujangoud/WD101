@@ -1,22 +1,37 @@
 document.addEventListener("DOMContentLoaded", function() {
+    loadTableFromSessionStorage();
+
     document.getElementById("registrationForm").addEventListener("submit", function(event) {
         event.preventDefault();
 
-        if (!validateDob()) {
-            alert("Age must be between 18 and 55 years.");
+        if (!validateForm()) {
             return;
         }
 
         addToTable();
+        saveTableToSessionStorage();
         clearForm();
     });
 
-    function validateDob() {
+    function validateForm() {
         var dob = new Date(document.getElementById("dob").value);
         var today = new Date();
         var age = today.getFullYear() - dob.getFullYear();
 
-        return age >= 18 && age <= 55;
+        if (age < 18 || age > 55) {
+            alert("Age must be between 18 and 55 years.");
+            return false;
+        }
+
+        var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        var email = document.getElementById("email").value;
+
+        if (!emailRegex.test(email)) {
+            alert("Invalid email address.");
+            return false;
+        }
+
+        return true;
     }
 
     function addToTable() {
@@ -37,10 +52,22 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     function clearForm() {
-        document.getElementById("name1").value = "";
-        document.getElementById("email1").value = "";
-        document.getElementById("password1").value = "";
-        document.getElementById("dob1").value = "";
-        document.getElementById("terms1").checked = false;
+        document.getElementById("name").value = "";
+        document.getElementById("email").value = "";
+        document.getElementById("password").value = "";
+        document.getElementById("dob").value = "";
+        document.getElementById("terms").checked = false;
+    }
+
+    function saveTableToSessionStorage() {
+        sessionStorage.setItem("registrationTable", document.getElementById("registrationTable").innerHTML);
+    }
+
+    function loadTableFromSessionStorage() {
+        var tableHtml = sessionStorage.getItem("registrationTable");
+
+        if (tableHtml) {
+            document.getElementById("registrationTable").innerHTML = tableHtml;
+        }
     }
 });
